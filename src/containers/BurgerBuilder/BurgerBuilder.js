@@ -52,12 +52,22 @@ class BurgerBuilder extends Component {
   };
 
   render() {
+    // Disable less button if we don't have ingredients of some type
+    // DisabledInfo is an object that contains
+    //    key: ingredient name and
+    //    value: boolean true / false if the ingredient less button should be disabled
+    const disabledInfo = { ...this.state.ingredients };
+    for (let ingredient in disabledInfo) {
+      disabledInfo[ingredient] = disabledInfo[ingredient] <= 0;
+    }
+
     return (
       <Auxiliary>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls
           addIngredient={this.addIngredientHandler}
           removeIngredient={this.removeIngredientHandler}
+          disabledInfo={disabledInfo}
         />
       </Auxiliary>
     );
