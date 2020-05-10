@@ -1,6 +1,6 @@
 import React from "react";
 
-import classes from "./burgerIngredient.module.css";
+import classes from "./BurgerIngredient.module.css";
 import PropTypes from "prop-types";
 
 const INGREDIENT_BREAD_BOTTOM = 0;
@@ -13,7 +13,7 @@ const INGREDIENT_BACON = 5;
 const burgerIngredient = (props) => {
   let ingredient = null;
 
-  switch (props.types) {
+  switch (props.type) {
     case INGREDIENT_BREAD_BOTTOM:
       ingredient = <div className={classes.BreadBottom}></div>;
       break;
@@ -45,7 +45,7 @@ const burgerIngredient = (props) => {
 };
 
 burgerIngredient.propTypes = {
-  types: PropTypes.oneOf([
+  type: PropTypes.oneOf([
     INGREDIENT_BREAD_BOTTOM,
     INGREDIENT_BREAD_TOP,
     INGREDIENT_MEAT,
@@ -55,4 +55,12 @@ burgerIngredient.propTypes = {
   ]).isRequired,
 };
 
-export default burgerIngredient;
+export {
+  burgerIngredient,
+  INGREDIENT_BREAD_BOTTOM,
+  INGREDIENT_BREAD_TOP,
+  INGREDIENT_MEAT,
+  INGREDIENT_CHEESE,
+  INGREDIENT_SALAD,
+  INGREDIENT_BACON,
+};
