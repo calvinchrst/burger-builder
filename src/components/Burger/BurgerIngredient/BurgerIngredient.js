@@ -3,12 +3,12 @@ import React from "react";
 import classes from "./BurgerIngredient.module.css";
 import PropTypes from "prop-types";
 
-const INGREDIENT_BREAD_BOTTOM = 0;
-const INGREDIENT_BREAD_TOP = 1;
-const INGREDIENT_MEAT = 2;
-const INGREDIENT_CHEESE = 3;
-const INGREDIENT_SALAD = 4;
-const INGREDIENT_BACON = 5;
+const INGREDIENT_BREAD_BOTTOM = "bread-bottom";
+const INGREDIENT_BREAD_TOP = "bread-top";
+const INGREDIENT_MEAT = "meat";
+const INGREDIENT_CHEESE = "cheese";
+const INGREDIENT_SALAD = "salad";
+const INGREDIENT_BACON = "bacon";
 
 const burgerIngredient = (props) => {
   let ingredient = null;
