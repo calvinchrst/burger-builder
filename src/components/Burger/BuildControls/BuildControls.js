@@ -30,7 +30,8 @@ const buildControls = (props) => (
       <BuildControl
         key={ctrl.label}
         label={ctrl.label}
-        clicked={() => props.addIngredient(ctrl.type)}
+        addIngredient={() => props.addIngredient(ctrl.type)}
+        removeIngredient={() => props.removeIngredient(ctrl.type)}
       />
     ))}
   </div>
