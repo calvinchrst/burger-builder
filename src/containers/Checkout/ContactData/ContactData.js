@@ -65,21 +65,19 @@ class ContactData extends Component {
   };
 
   orderHandler = (event) => {
-    event.preventDefault();
+    console.log("Enter here");
+    event.preventDefault(); // Don't want to send req automatically
     this.setState({ loading: true });
+    const formData = {};
+    for (let formElementIdentifier in this.state.orderForm) {
+      formData[formElementIdentifier] = this.state.orderForm[
+        formElementIdentifier
+      ].value;
+    }
     const order = {
       ingredients: this.props.ingredients,
       price: this.props.price, // You should recalculate the price on the server for production
-      customer: {
-        name: "Calvin Christian",
-        address: {
-          street: "Jalan Teratai",
-          zipCode: "28281",
-          country: "Malaysia",
-        },
-        email: "test@test.com",
-      },
-      deliveryMethod: "fastest",
+      orderData: formData,
     };
 
     axios
@@ -89,9 +87,9 @@ class ContactData extends Component {
         this.props.history.push("/");
       })
       .catch((err) => {
+        console.log(err);
         this.setState({ loading: false });
       });
-    console.log(this.props.ingredients);
   };
 
   inputChangedHanlder = (event, inputIdentifier) => {
@@ -109,7 +107,7 @@ class ContactData extends Component {
     }
 
     let form = (
-      <form>
+      <form onSubmit={this.orderHandler}>
         {formElementsArray.map((formElement) => (
           <Input
             key={formElement.id}
@@ -119,9 +117,7 @@ class ContactData extends Component {
             changed={(event) => this.inputChangedHanlder(event, formElement.id)}
           />
         ))}
-        <Button btnType="Success" clicked={this.orderHandler}>
-          ORDER
-        </Button>
+        <Button btnType="Success">ORDER</Button>
       </form>
     );
     if (this.state.loading) {
