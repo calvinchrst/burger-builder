@@ -13,7 +13,6 @@ import * as actionTypes from "../../store/action";
 
 class BurgerBuilder extends Component {
   state = {
-    purchasable: false,
     purchasing: false,
     loading: false,
     error: false,
@@ -31,12 +30,12 @@ class BurgerBuilder extends Component {
   };
 
   // subscription required // not sure how
-  updatePurchasableState = (ingredients) => {
+  isPurchasable = (ingredients) => {
     const nrIngredients = Object.keys(ingredients)
       .map((igKey) => ingredients[igKey])
       .reduce((sum, el) => sum + el, 0);
 
-    this.setState({ purchasable: nrIngredients > 0 });
+    return nrIngredients > 0;
   };
 
   purchasingHandler = () => {
@@ -86,7 +85,7 @@ class BurgerBuilder extends Component {
             addIngredient={this.props.onAddIngredient}
             removeIngredient={this.props.onReduceIngredient}
             disabledInfo={disabledInfo}
-            purchasable={this.state.purchasable}
+            purchasable={this.isPurchasable(this.props.ingredients)}
             price={this.props.totalPrice}
             purchasing={this.purchasingHandler}
           />
