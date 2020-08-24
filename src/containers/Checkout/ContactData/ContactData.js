@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 import Button from "../../../components/UI/Button/Button";
 import Spinner from "../../../components/UI/Spinner/Spinner";
@@ -95,7 +96,6 @@ class ContactData extends Component {
   };
 
   orderHandler = (event) => {
-    console.log("Enter here");
     event.preventDefault(); // Don't want to send req automatically
     this.setState({ loading: true });
     const formData = {};
@@ -106,7 +106,7 @@ class ContactData extends Component {
     }
     const order = {
       ingredients: this.props.ingredients,
-      price: this.props.price, // You should recalculate the price on the server for production
+      price: this.props.totalPrice, // You should recalculate the price on the server for production
       orderData: formData,
     };
 
@@ -131,7 +131,6 @@ class ContactData extends Component {
       updatedFormElement.value,
       updatedFormElement.validation
     );
-    console.log(updatedFormElement);
     updatedOrderForm[inputIdentifier] = updatedFormElement;
 
     let formIsValid = true;
@@ -202,4 +201,11 @@ class ContactData extends Component {
   }
 }
 
-export default ContactData;
+const mapStateToProps = (state) => {
+  return {
+    ingredients: state.ingredients,
+    totalPrice: state.totalPrice,
+  };
+};
+
+export default connect(mapStateToProps)(ContactData);
