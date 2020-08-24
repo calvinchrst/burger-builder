@@ -37,8 +37,8 @@ const reducer = (state = initialState, action) => {
         ingredients: {
           ...state.ingredients,
           [action.ingredient]: state.ingredients[action.ingredient] - 1,
-          totalPrice: state.totalPrice - INGREDIENTS_PRICE[action.ingredient],
         },
+        totalPrice: state.totalPrice - INGREDIENTS_PRICE[action.ingredient],
       };
     default:
       return state;
