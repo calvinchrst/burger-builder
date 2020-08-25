@@ -10,13 +10,15 @@ const INGREDIENTS_PRICE = {
 const initialState = {
   ingredients: null,
   totalPrice: 4, // Base burger price
+  error: false,
 };
 
 const reducer = (state = initialState, action) => {
-  let updatedIngredients;
   switch (action.type) {
     case actionTypes.SET_INGREDIENTS:
-      return { ...state, ingredients: action.ingredients };
+      return { ...state, ingredients: action.ingredients, error: false };
+    case actionTypes.FETCH_INGREDIENTS_FAILED:
+      return { ...state, error: true };
     case actionTypes.ADD_INGREDIENT:
       return {
         ...state,

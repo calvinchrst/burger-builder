@@ -7,28 +7,18 @@ import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import Spinner from "../../components/UI/Spinner/Spinner";
-import axios from "../../axios-orders";
 import WithErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
-import * as actionTypes from "../../store/actions/actionTypes";
 import * as burgerBuilderActions from "../../store/actions/index";
+import axios from "../../axios-orders";
 
 class BurgerBuilder extends Component {
   state = {
     purchasing: false,
-    loading: false,
-    error: false,
   };
 
-  componentDidMount = () => {
-    axios
-      .get("/ingredients.json")
-      .then((result) => {
-        this.props.onSetIngredients(result.data);
-      })
-      .catch((err) => {
-        this.setState({ error: true });
-      });
-  };
+  componentDidMount() {
+    this.props.onInitIngredients();
+  }
 
   // subscription required // not sure how
   isPurchasable = (ingredients) => {
@@ -90,11 +80,7 @@ class BurgerBuilder extends Component {
       );
     }
 
-    if (this.state.loading) {
-      orderSummary = <Spinner />;
-    }
-
-    if (this.state.error) {
+    if (this.props.error) {
       burger = <p>Can't fetch ingredients from server</p>;
     }
 
@@ -116,13 +102,13 @@ const mapStateToProps = (state) => {
   return {
     ingredients: state.ingredients,
     totalPrice: state.totalPrice,
+    error: state.error,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onSetIngredients: (ingredients) =>
-      dispatch({ type: actionTypes.SET_INGREDIENTS, ingredients: ingredients }),
+    onInitIngredients: () => dispatch(burgerBuilderActions.initIngredient()),
     onAddIngredient: (ingredient) =>
       dispatch(burgerBuilderActions.addIngredient(ingredient)),
     onReduceIngredient: (ingredient) =>
