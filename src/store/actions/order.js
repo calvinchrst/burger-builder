@@ -30,8 +30,14 @@ export const purchaseBurger = (orderData) => {
   };
 };
 
-export const purchaseBurgerStart = () => {
+const purchaseBurgerStart = () => {
   return {
     type: actionTypes.PURCHASE_BURGER_START,
+  };
+};
+
+export const purchaseBurgerInit = () => {
+  return {
+    type: actionTypes.PURCHASE_BURGER_INIT,
   };
 };
