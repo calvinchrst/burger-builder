@@ -1,4 +1,5 @@
 import * as actionTypes from "../actions/actionTypes";
+import { updateObject } from "../utility";
 
 const INGREDIENTS_PRICE = {
   salad: 0.5,
@@ -14,10 +15,10 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
+  let updatedIngredients;
   switch (action.type) {
     case actionTypes.SET_INGREDIENTS:
-      return {
-        ...state,
+      return updateObject(state, {
         ingredients: {
           salad: action.ingredients.salad,
           bacon: action.ingredients.bacon,
@@ -26,32 +27,30 @@ const reducer = (state = initialState, action) => {
         },
         totalPrice: 4,
         error: false,
-      };
+      });
     case actionTypes.FETCH_INGREDIENTS_FAILED:
-      return { ...state, error: true };
+      return updateObject(state, { error: true });
     case actionTypes.ADD_INGREDIENT:
-      return {
-        ...state,
-        ingredients: {
-          ...state.ingredients,
-          [action.ingredient]: state.ingredients[action.ingredient] + 1,
-        },
+      updatedIngredients = updateObject(state.ingredients, {
+        [action.ingredient]: state.ingredients[action.ingredient] + 1,
+      });
+      return updateObject(state, {
+        ingredients: updatedIngredients,
         totalPrice: state.totalPrice + INGREDIENTS_PRICE[action.ingredient],
-      };
+      });
     case actionTypes.REDUCE_INGREDIENT:
       // Do not remove ingredients if we don't have anything left
       if (state.ingredients[action.ingredient] <= 0) {
         return state;
       }
 
-      return {
-        ...state,
-        ingredients: {
-          ...state.ingredients,
-          [action.ingredient]: state.ingredients[action.ingredient] - 1,
-        },
+      updatedIngredients = updateObject(state.ingredients, {
+        [action.ingredient]: state.ingredients[action.ingredient] - 1,
+      });
+      return updateObject(state, {
+        ingredients: updatedIngredients,
         totalPrice: state.totalPrice - INGREDIENTS_PRICE[action.ingredient],
-      };
+      });
     default:
       return state;
   }
