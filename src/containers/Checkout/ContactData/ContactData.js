@@ -109,8 +109,6 @@ class ContactData extends Component {
       price: this.props.totalPrice, // You should recalculate the price on the server for production
       orderData: formData,
     };
-    console.log(order);
-
     this.props.onOrderBurger(order);
   };
 
