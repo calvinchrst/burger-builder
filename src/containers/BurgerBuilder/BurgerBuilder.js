@@ -7,27 +7,18 @@ import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import Spinner from "../../components/UI/Spinner/Spinner";
-import axios from "../../axios-orders";
 import WithErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
-import * as actionTypes from "../../store/action";
+import * as actions from "../../store/actions/index";
+import axios from "../../axios-orders";
 
 class BurgerBuilder extends Component {
   state = {
     purchasing: false,
-    loading: false,
-    error: false,
   };
 
-  componentDidMount = () => {
-    axios
-      .get("/ingredients.json")
-      .then((result) => {
-        this.props.onSetIngredients(result.data);
-      })
-      .catch((err) => {
-        this.setState({ error: true });
-      });
-  };
+  componentDidMount() {
+    this.props.onInitIngredients();
+  }
 
   // subscription required // not sure how
   isPurchasable = (ingredients) => {
@@ -47,6 +38,7 @@ class BurgerBuilder extends Component {
   };
 
   purchasingContinueHandler = () => {
+    this.props.onPurchaseBurgerInit();
     this.props.history.push("/checkout");
   };
 
@@ -89,11 +81,7 @@ class BurgerBuilder extends Component {
       );
     }
 
-    if (this.state.loading) {
-      orderSummary = <Spinner />;
-    }
-
-    if (this.state.error) {
+    if (this.props.error) {
       burger = <p>Can't fetch ingredients from server</p>;
     }
 
@@ -113,19 +101,20 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    ingredients: state.ingredients,
-    totalPrice: state.totalPrice,
+    ingredients: state.burgerBuilder.ingredients,
+    totalPrice: state.burgerBuilder.totalPrice,
+    error: state.burgerBuilder.error,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onSetIngredients: (ingredients) =>
-      dispatch({ type: actionTypes.SET_INGREDIENTS, ingredients: ingredients }),
+    onInitIngredients: () => dispatch(actions.initIngredient()),
     onAddIngredient: (ingredient) =>
-      dispatch({ type: actionTypes.ADD_INGREDIENT, ingredient: ingredient }),
+      dispatch(actions.addIngredient(ingredient)),
     onReduceIngredient: (ingredient) =>
-      dispatch({ type: actionTypes.REDUCE_INGREDIENT, ingredient: ingredient }),
+      dispatch(actions.reduceIngredient(ingredient)),
+    onPurchaseBurgerInit: () => dispatch(actions.purchaseBurgerInit()),
   };
 };
 
