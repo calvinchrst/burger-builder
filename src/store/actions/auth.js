@@ -22,7 +22,7 @@ const authStart = () => {
   };
 };
 
-export const auth = (email, password) => {
+export const auth = (email, password, isSignup) => {
   return (dispatch) => {
     dispatch(authStart());
     const authData = {
@@ -30,8 +30,11 @@ export const auth = (email, password) => {
       password: password,
       returnSecureToken: true,
     };
+    const url =
+      (isSignup ? config.FIREBASE_SIGN_UP_URI : config.FIREBASE_SIGN_IN_URI) +
+      config.FIREBASE_WEB_API_KEY;
     axios
-      .post(config.FIREBASE_SIGN_UP_URI + config.FIREBASE_WEB_API_KEY, authData)
+      .post(url, authData)
       .then((res) => {
         dispatch(authSuccess(res.data));
       })
