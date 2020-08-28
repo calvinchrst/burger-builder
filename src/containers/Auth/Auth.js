@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 
 import classes from "./Auth.module.css";
 import * as actions from "../../store/actions/index";
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 class Auth extends Component {
   state = {
@@ -100,22 +101,32 @@ class Auth extends Component {
       formElementsArray.push({ id: key, config: this.state.controls[key] });
     }
 
-    const form = formElementsArray.map((formElement) => (
-      <Input
-        key={formElement.id}
-        valueType={formElement.id}
-        elementType={formElement.config.elementType}
-        elementConfig={formElement.config.elementConfig}
-        value={formElement.config.value}
-        invalid={!formElement.config.valid}
-        shouldValidate={formElement.config.validation}
-        touched={formElement.config.touched}
-        changed={(event) => this.inputChangeHandler(event, formElement.id)}
-      />
-    ));
+    let form;
+    if (this.props.isLoading) {
+      form = <Spinner />;
+    } else {
+      form = formElementsArray.map((formElement) => (
+        <Input
+          key={formElement.id}
+          valueType={formElement.id}
+          elementType={formElement.config.elementType}
+          elementConfig={formElement.config.elementConfig}
+          value={formElement.config.value}
+          invalid={!formElement.config.valid}
+          shouldValidate={formElement.config.validation}
+          touched={formElement.config.touched}
+          changed={(event) => this.inputChangeHandler(event, formElement.id)}
+        />
+      ));
+    }
+
+    const errorMessage = this.props.error ? (
+      <p>Error: {this.props.error.message}</p>
+    ) : null;
 
     return (
       <div className={classes.Auth}>
+        {errorMessage}
         <form onSubmit={this.submitHandler}>
           {form}
           <Button btnType="Success">
@@ -130,6 +141,13 @@ class Auth extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    isLoading: state.auth.isLoading,
+    error: state.auth.error,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     onAuth: (email, password, isSignup) =>
@@ -137,4 +155,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);
