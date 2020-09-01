@@ -1,7 +1,7 @@
 import * as actionTypes from "./actionTypes";
 import axios from "axios";
 import * as config from "../../config/default.json";
-import * as constants from "../../constants";
+import * as constants from "../../shared/constants";
 
 const authSuccess = (token, userID) => {
   return {

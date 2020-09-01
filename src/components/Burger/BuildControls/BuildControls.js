@@ -1,25 +1,25 @@
 import React from "react";
 
 import * as BI from "../BurgerIngredient/BurgerIngredient";
-import util from "../../../util/util";
+import { stringToSentenceCase } from "../../../shared/utility";
 import classes from "./BuildControls.module.css";
 import BuildControl from "./BuildControl/BuildControl";
 
 const controls = [
   {
-    label: util.stringToSentenceCase(BI.INGREDIENT_SALAD),
+    label: stringToSentenceCase(BI.INGREDIENT_SALAD),
     type: BI.INGREDIENT_SALAD,
   },
   {
-    label: util.stringToSentenceCase(BI.INGREDIENT_BACON),
+    label: stringToSentenceCase(BI.INGREDIENT_BACON),
     type: BI.INGREDIENT_BACON,
   },
   {
-    label: util.stringToSentenceCase(BI.INGREDIENT_CHEESE),
+    label: stringToSentenceCase(BI.INGREDIENT_CHEESE),
     type: BI.INGREDIENT_CHEESE,
   },
   {
-    label: util.stringToSentenceCase(BI.INGREDIENT_MEAT),
+    label: stringToSentenceCase(BI.INGREDIENT_MEAT),
     type: BI.INGREDIENT_MEAT,
   },
 ];
