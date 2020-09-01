@@ -12,6 +12,7 @@ const initialState = {
   ingredients: null,
   totalPrice: 4, // Base burger price
   error: false,
+  isBuilding: false,
 };
 
 const setIngredients = (state, action) => {
@@ -24,6 +25,7 @@ const setIngredients = (state, action) => {
     },
     totalPrice: 4,
     error: false,
+    isBuilding: false,
   });
 };
 
@@ -38,6 +40,7 @@ const addIngredients = (state, action) => {
   return updateObject(state, {
     ingredients: updatedIngredients,
     totalPrice: state.totalPrice + INGREDIENTS_PRICE[action.ingredient],
+    isBuilding: true,
   });
 };
 
@@ -53,6 +56,7 @@ const reduceIngredients = (state, action) => {
   return updateObject(state, {
     ingredients: updatedIngredients,
     totalPrice: state.totalPrice - INGREDIENTS_PRICE[action.ingredient],
+    isBuilding: true,
   });
 };
 
